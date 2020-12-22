@@ -1,26 +1,65 @@
 # Project 0
-Data should be parsed from a CSV, JSON, or other text file format, transform and analyzed, then persist the analysis to a output file or NoSQL database
+Does request to a [mtg api](https://scryfall.com/docs/api)  to get a bunch of random cards. This data is filtered and compiled for the user. The data can then be stored in various places. 
+
+<br />
+
+## Setup
+    > docker run --name mymongo -p 27017:27017 -d mongo
+    Java version 8 or 11
+    Scala
+
+
+<br />
 
 ## Compile
 > sbt compile
 
+<br />
+
+## Run
+Runs the program without args or with
+> sbt run
+
+> sbt "run \<flag> \<flag-arg>"
+
+<br />
+
+
+## Flags
+    * -n
+        * Number of cards/request to grab from api [1-500]
+
+<br />
+
 ## Test
 > sbt test
 
-## Run
-> sbt run
+<br />
+
+## Scaladocs
+Run this command then path to target/scala\<version>/api
+> sbt doc
+
+<br />
+
+## View mongo database
+> docker exec -it mymongo bash mongo
+
+    # This tells you your database
+    > db 
+
+    # Change to database
+    > use mtgdb
+
+    # This tells you the table names
+    > db.getCollectionNames() 
+
+    # Grabs all rows from table
+    > db.<collection name>.find()
+    > db.<collection name>.find().pretty()
+
+    # Use this to kill the table
+    > db.mtg.drop() 
 
 
-## Make new project with some things in it
-> sbt new scala/scalatest-example.g8
 
-## TODO Features
-- Documentation (scaladocs, Readme, etc)
-- Unit Testing (scalatest)
-- Data Persistance (files & NoSQL)
-- CLI flags and argument parsing
-- Environment variables
-- Logging
-- Concurrency
-
-> docker run -name mymongo -p 27017:27017 -d mongo
