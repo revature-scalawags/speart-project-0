@@ -14,6 +14,9 @@ import org.bson.BsonValue
 import org.bson.types.ObjectId
 import org.bson.BsonObjectId
 
+/** Writes to stdout, files, and mongo.
+  * 
+  */
 class Output extends LazyLogging{
 
     /** Writes writing_data to a csv file.
@@ -24,6 +27,7 @@ class Output extends LazyLogging{
     def write_map_to_file(writing_data:Map[String, Map[String, Any]], filename:String){
         //Log system changes
         logger.debug("Writing to a file: " + filename)
+        println("Writing to a file: " + filename)
 
         val csv_file = new PrintWriter(new File( filename ))
         for( i <- writing_data.keys){
@@ -39,9 +43,10 @@ class Output extends LazyLogging{
       * @param writing_data Data compiled from api data
       * @param filename Filename of what file you want to write to
       */
-    def write_map_to_file_int(writing_data:Map[String, Map[String, Int]], filename:String){
+    def write_map_to_file_int(writing_data:Map[String, Map[String, Int]], filename:String):Unit = {
         //Log system changes
         logger.debug("Writing to a file: " + filename)
+        println("Writing to a file: " + filename)
 
         val csv_file = new PrintWriter(new File( filename ))
         for( i <- writing_data.keys){
@@ -79,6 +84,9 @@ class Output extends LazyLogging{
       * @param compiled_data Compiled data from raw_data
       */
     def mongo_database_add(raw_data:Map[String, Map[String, Any]], compiled_data:Map[String, Map[String, Int]]):Unit = {
+        // Logging to stdout - Mongo already logs to the debugger
+        println("Writing to MongoDB")
+
         val client = MongoClient()
         val db = client.getDatabase("mtgdb")
 

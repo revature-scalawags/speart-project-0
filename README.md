@@ -1,5 +1,5 @@
 # Project 0
-Does request to a [mtg api](https://scryfall.com/docs/api)  to get a bunch of random cards. This data is filtered and compiled for the user. The data can then be stored in various places. 
+Does request to a [magic the gathering api](https://scryfall.com/docs/api)  to get a bunch of random cards. This data is filtered and compiled for the user. The data can then be stored in various places. 
 
 <br />
 

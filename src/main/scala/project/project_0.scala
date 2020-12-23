@@ -1,7 +1,10 @@
 package project
-import utility.{ MTGUtil, DataCompiler}
+import utility.DataCompiler
 import scalaj.http._
 
+/** Grabs arguments from user then gives all the information to the datacompiler class.
+  * 
+  */
 object Project0 extends App {
 
     // Object variables
@@ -37,23 +40,6 @@ object Project0 extends App {
         while(i < arguments.length){
 
             arguments(i) match {
-                // IDK IF I WANT THIS
-                // case "-run" if(i + 1 < arguments.length) => {
-                //     //TODO: Run it after it sets all the data
-                //     i -= 1
-                // }
-                // case "-t" if(i + 1 < arguments.length) => {
-                //     println("DO SOMETHING HERE")
-                // }
-                // case "-r" if(i + 1 < arguments.length) => {
-                //     println("DO SOMETHING HERE")
-                // } 
-                // case "-s" if(i + 1 < arguments.length) => {
-                //     println("DO SOMETHING HERE")
-                // }
-                // case "-c" if(i + 1 < arguments.length) => {
-                //     println("DO SOMETHING HERE")
-                // }
                 case "-n" if(i + 1 < arguments.length) => {
                     try {
                         if(arguments(i+1).toInt > 0 && arguments(i+1).toInt < 501){
@@ -74,7 +60,6 @@ object Project0 extends App {
                 case _ => {
                     println(s"An error has occurred. Unknown flag or arg: ${arguments(i)}")
                     help()
-                    
                     return false
                 }
             }
@@ -89,10 +74,9 @@ object Project0 extends App {
     /** Prints to command line how to use the program.
       * 
       */
-    def help():Unit = {
+    private def help():Unit = {
         println("No arguments --")
         println("sbt run\n")
-
         println("Arguments --")
         println("sbt \"run <flag> <flag -data>\"")
         println("Flags:")

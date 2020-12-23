@@ -3,6 +3,9 @@ package project.utility
 import scala.collection.mutable.Map
 import com.typesafe.scalalogging.LazyLogging
 
+/** Askes user what different prompts, calls an mtg api, and then asks the user what to do with the data.
+  *
+  */
 class DataCompiler extends LazyLogging{
 
     private var api_key = ""
@@ -35,7 +38,7 @@ class DataCompiler extends LazyLogging{
             user_input match {
                 case "1" => build_and_run_query()
                 case "2" => set_number_of_request()
-                case "q" => println("Quitting") 
+                case "q" => println("Quitting\n") 
                 case _ => println("\n---Wrong input when selecting an option [x] type in x.---\n")
             }
 
@@ -46,8 +49,8 @@ class DataCompiler extends LazyLogging{
     /** Prints out the user options for possiblities.
      * 
      */
-    def options():Unit = {
-        println("User Options")
+    private def options():Unit = {
+        println("\nUser Options")
         println("[1]: Run")
         println("[2]: Change number of cards [Request]: " + magic_utility.number_request)
         println("[q]: Quit")
@@ -76,6 +79,7 @@ class DataCompiler extends LazyLogging{
             // Check user input
             user_input match {
                 case "1" => {
+                    
                     compiled_data = sorting_data(raw_data)
 
                     //Write to raw file
@@ -87,14 +91,18 @@ class DataCompiler extends LazyLogging{
                 }
                 case "2" => {
                     compiled_data = sorting_data(raw_data)
+
+                    //Writing to mongo db
                     output_utility.mongo_database_add(raw_data, compiled_data)
                 }
                 case "3" => {
                     compiled_data = sorting_data(raw_data)
+
+                    //Write to STDOUT
                     output_utility.write_map_stdout(compiled_data)
                 }
                 case "4" => println(raw_data)
-                case "b" => println("Back") 
+                case "b" => println("Back\n") 
                 case _ => println("\n---Wrong input when selecting an option [x] type in x.---\n")
             }
         }
@@ -104,9 +112,8 @@ class DataCompiler extends LazyLogging{
       * 
       */
     private def view_data_options():Unit = {
-        println("\n\n\n\n")
-        println("User Options --")
-        println("[1]: Write to cvs")
+        println("\nUser Options --")
+        println("[1]: Write to csv")
         println("[2]: Write to mongo")
         println("[3]: Read compiled data")
         println("[4]: Read raw data")
@@ -131,11 +138,11 @@ class DataCompiler extends LazyLogging{
             }
         }
 
-        magic_utility.number_request = number_request
+        magic_utility.setnumber_request(number_request)
+        //.number_request = number_request
     }
 
-    /** Gets the raw data from the api and compiles the data.
-      * Then returns the data
+    /** Gets the raw data from the api and compiles the data. Then returns the data
       *
       * @param raw_data A map of data grabbed from the api
       * @return A map of filtered data from api
@@ -166,7 +173,7 @@ class DataCompiler extends LazyLogging{
                     case "type_line" => { //String parse by " " then count
                         val card_types = card_details._2.toString().replaceAll("\"", "").split(" ")
                         for(types <- card_types){
-                            if(types != raw"—"){ //  ΓÇö
+                            if(types != raw"—" && types != raw"//"){ //  ΓÇö
                                 if( compiled_data( card_details._1 ).contains( types ) ){
                                     compiled_data( card_details._1 )( types ) += 1
                                 }else{

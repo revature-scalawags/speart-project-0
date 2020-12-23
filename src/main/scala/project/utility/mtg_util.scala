@@ -12,6 +12,11 @@ import com.typesafe.scalalogging.LazyLogging
 import scala.concurrent.duration.Duration
 import java.util.concurrent.TimeUnit
 
+/** A class that calls the mtg api. Uses futures to make all the calls to the api. Does a basic filter on the api data and returns the data.
+  *
+  * @param api_key Api key of the api
+  * @param secret Secret of the api
+  */
 class MTGUtil(val api_key:String, val secret:String) extends LazyLogging{
     private val BASE_URL = "https://api.scryfall.com/cards/random?q=game:arena"
     var number_request = 2
