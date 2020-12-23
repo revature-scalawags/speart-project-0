@@ -30,8 +30,8 @@ object Project0 extends App {
     /** Goes through the arguments passed into the object.
       * Returns true if args passed are correctly formatted.
       *
-      * @param arguments 
-      * @return
+      * @param arguments Program arguments
+      * @return True if the user used correct arguments when calling the function else false.
       */
     def cli_args(arguments: Array[String]):Boolean = {
 
